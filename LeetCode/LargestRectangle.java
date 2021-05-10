@@ -2,7 +2,7 @@ import java.util.*;
 import java.io.*;
 
 class LargestRectangle{
-  public static void main(String[] args) {
+  	public static void main(String[] args) {
 		int[] heights = {};
 		int result = largestRectangleArea(heights);
 		System.out.println(result);
