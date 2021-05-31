@@ -1,1 +1,1 @@
-Two different implementation of Conway's Game of Life in Python
+Two different implementations of Conway's Game of Life in Python
