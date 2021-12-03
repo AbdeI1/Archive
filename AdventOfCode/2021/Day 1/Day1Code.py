@@ -1,7 +1,7 @@
 def reader():
 	f = open("Day1input.txt", 'r').read()
 	f = f.split('\n')
-	f = f[: len(f) - 1]
+	f = f[:-1]
 	return f
 
 def part1():
