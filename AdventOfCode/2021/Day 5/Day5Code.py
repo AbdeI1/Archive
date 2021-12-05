@@ -9,21 +9,16 @@ def part1():
 	d = {}
 	for l in f:
 		ps = l.split(' -> ')
-		p1 = ps[0].split(',')
-		p2 = ps[1].split(',')
-		if int(p1[0]) == int(p2[0]):
-			for i in range(min(int(p1[1]), int(p2[1])), max(int(p1[1]), int(p2[1])) + 1):
-				if (int(p1[0]), i) in d:
-					d[(int(p1[0]), i)] += 1
-				else:
-					d[(int(p1[0]), i)] = 1
-			continue
-		if int(p1[1]) == int(p2[1]):
-			for i in range(min(int(p1[0]), int(p2[0])),max(int(p1[0]), int(p2[0])) + 1):
-				if (i, int(p1[1])) in d:
-					d[(i, int(p1[1]))] += 1
-				else:
-					d[(i, int(p1[1]))] = 1
+		p1 = list(map(int, ps[0].split(',')))
+		p2 = list(map(int, ps[1].split(',')))
+		if p1[0] == p2[0]:
+			i = p1[0]
+			for j in range(min(p1[1], p2[1]), max(p1[1], p2[1]) + 1):
+				d[(i,j)] = 2 if (i,j) in d else 1
+		elif p1[1] == p2[1]:
+			j = p1[1]
+			for i in range(min(p1[0], p2[0]), max(p1[0], p2[0]) + 1):
+				d[(i,j)] = 2 if (i,j) in d else 1
 	count = 0
 	for di in d:
 		if d[di] != 1:
@@ -36,41 +31,18 @@ def part2():
 	d = {}
 	for l in f:
 		ps = l.split(' -> ')
-		p1 = ps[0].split(',')
-		p2 = ps[1].split(',')
-		if int(p1[0]) == int(p2[0]):
-			for i in range(min(int(p1[1]), int(p2[1])), max(int(p1[1]), int(p2[1])) + 1):
-				if (int(p1[0]), i) in d:
-					d[(int(p1[0]), i)] += 1
-				else:
-					d[(int(p1[0]), i)] = 1
-			continue
-		if int(p1[1]) == int(p2[1]):
-			for i in range(min(int(p1[0]), int(p2[0])),max(int(p1[0]), int(p2[0])) + 1):
-				if (i, int(p1[1])) in d:
-					d[(i, int(p1[1]))] += 1
-				else:
-					d[(i, int(p1[1]))] = 1
-			continue
-		i = int(p1[0])
-		j = int(p1[1])
-		while i != int(p2[0]):
-			if (i, j) in d :
-				d[(i,j)] += 1
-			else:
-				d[(i, j)] = 1
-			if int(p2[0]) < int(p1[0]):
-				i -= 1
-			else:
-				i += 1
-			if int(p2[1]) < int(p1[1]):
-				j -= 1
-			else:
-				j += 1
-		if (i, j) in d :
-			d[(i,j)] += 1
+		p1 = list(map(int, ps[0].split(',')))
+		p2 = list(map(int, ps[1].split(',')))
+		if p1[0] == p2[0]:
+			i = p1[0]
+			for j in range(min(p1[1], p2[1]), max(p1[1], p2[1]) + 1):
+				d[(i,j)] = 2 if (i,j) in d else 1
 		else:
-			d[(i, j)] = 1
+			slope = (p1[1]-p2[1])/(p1[0]-p2[0])
+			j = p1[1] if p1[0] < p2[0] else p2[1]
+			for i in range(min(p1[0], p2[0]), max(p1[0], p2[0]) + 1):
+				d[(i,j)] = 2 if (i,j) in d else 1
+				j += slope
 	count = 0
 	for di in d:
 		if d[di] != 1:
