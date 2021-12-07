@@ -7,8 +7,8 @@ def reader():
 def part1():
 	f = reader()
 	crabs = list(map(int,f[0].split(',')))
-	m = 10000000
-	for i in range(1914):
+	m = 100000000
+	for i in range(min(crabs), max(crabs)+1):
 		f = 0
 		for c in crabs:
 			f += abs(c - i)
@@ -18,8 +18,8 @@ def part1():
 def part2():
 	f = reader()
 	crabs = list(map(int,f[0].split(',')))
-	m = 100000000
-	for i in range(1914):
+	m = 1000000000
+	for i in range(min(crabs), max(crabs)+1):
 		f = 0
 		for c in crabs:
 			s = abs(c-i)
