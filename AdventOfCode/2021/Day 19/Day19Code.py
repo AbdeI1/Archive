@@ -18,20 +18,6 @@ possibleOrientations = [([0,1,2],[1,1,1]), ([0,2,1],[-1,1,1]),\
 												([2,0,1],[-1,-1,1]), ([2,1,0],[-1,-1,-1]),\
 												]
 
-# possibleOrientations = [([0,1,2],[1,1,1]), ([0,2,1],[1,1,1]),\
-# 												([1,0,2],[1,1,1]), ([1,2,0],[1,1,1]),\
-# 												([2,0,1],[1,1,1]), ([2,1,0],[1,1,1]),\
-# 												([0,1,2],[1,-1,-1]), ([0,2,1],[1,-1,-1]),\
-# 												([1,0,2],[1,-1,-1]), ([1,2,0],[1,-1,-1]),\
-# 												([2,0,1],[1,-1,-1]), ([2,1,0],[1,-1,-1]),\
-# 												([0,1,2],[-1,1,-1]), ([0,2,1],[-1,1,-1]),\
-# 												([1,0,2],[-1,1,-1]), ([1,2,0],[-1,1,-1]),\
-# 												([2,0,1],[-1,1,-1]), ([2,1,0],[-1,1,-1]),\
-# 												([0,1,2],[-1,-1,1]), ([0,2,1],[-1,-1,1]),\
-# 												([1,0,2],[-1,-1,1]), ([1,2,0],[-1,-1,1]),\
-# 												([2,0,1],[-1,-1,1]), ([2,1,0],[-1,-1,1]),\
-# 												]
-
 def getMap(sc):
 	m = set()
 	for coords in sc:
@@ -101,31 +87,31 @@ def countMaxOverlap(sc1, sc2, maps, i):
 					return (count, points, pos, o)
 	return (0, points, mp, mo)
 
-# def part1():
-# 	f = reader()
-# 	sc = list(map(lambda x : x.split('\n')[1:], f))
-# 	sc = list(map(lambda y : list(map(lambda x: x.split(','), y)), sc))
-# 	sc = list(map(lambda y : list(map(lambda x : list(map(int, x)), y)), sc))
-# 	maps = list(map(lambda x : getMap(x), sc))
-# 	positions = [[0]*3 for _ in range(len(maps))]
-# 	orientations = [([0,1,2],[1,1,1]) for _ in range(len(maps))]
-# 	cur = 0
-# 	fin = [False]*len(maps)
-# 	fin[0] = True
-# 	for _ in range(len(maps)):
-# 		for cur in range(len(maps)):
-# 			if fin[cur]:
-# 				for i in range(len(maps)):
-# 					if not fin[i]:
-# 						(count, p, po, o) = countMaxOverlap(maps[cur], maps[i], maps, i)
-# 						if count >= 12:
-# 							cur = i
-# 							fin[cur] = True
-# 							break
-# 	points = set()
-# 	for i in range(len(maps)):
-# 		points = points.union(getPoints(maps[i], positions[0], orientations[0]))
-# 	print(len(points))
+def part1():
+	f = reader()
+	sc = list(map(lambda x : x.split('\n')[1:], f))
+	sc = list(map(lambda y : list(map(lambda x: x.split(','), y)), sc))
+	sc = list(map(lambda y : list(map(lambda x : list(map(int, x)), y)), sc))
+	maps = list(map(lambda x : getMap(x), sc))
+	positions = [[0]*3 for _ in range(len(maps))]
+	orientations = [([0,1,2],[1,1,1]) for _ in range(len(maps))]
+	cur = 0
+	fin = [False]*len(maps)
+	fin[0] = True
+	for _ in range(len(maps)):
+		for cur in range(len(maps)):
+			if fin[cur]:
+				for i in range(len(maps)):
+					if not fin[i]:
+						(count, p, po, o) = countMaxOverlap(maps[cur], maps[i], maps, i)
+						if count >= 12:
+							cur = i
+							fin[cur] = True
+							break
+	points = set()
+	for i in range(len(maps)):
+		points = points.union(getPoints(maps[i], positions[0], orientations[0]))
+	print(len(points))
 
 def getManhatt(p1, p2):
 	return abs(p2[0]-p1[0]) + abs(p2[1]-p1[1]) + abs(p2[2]-p1[2])
