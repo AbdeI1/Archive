@@ -1,5 +1,5 @@
 def reader():
-	f = open("Day22input.txt", 'r').read()
+	f = open("Day22Sample.txt", 'r').read()
 	f = f.split('\n')
 	f = f[:-1]
 	return f
@@ -45,7 +45,7 @@ def intersect(cube1, cube2):
 		ys = (max(cube1[1][0], cube2[1][0]), min(cube1[1][1], cube2[1][1]))
 		zs = (max(cube1[2][0], cube2[2][0]), min(cube1[2][1], cube2[2][1]))
 		return (True, (xs, ys, zs))
-	return (False, ((0,0), (0,0), (0,0)))
+	return (False, ((1,0), (1,0), (1,0)))
 
 def part2():
 	f = reader()
@@ -77,7 +77,7 @@ def part2():
 			regions.append(((xs[0], xs[1]), (ys[0], ys[1]), (zs[0], zs[1])))
 			signs.append(1)
 		cur = ((xs[0], xs[1]), (ys[0], ys[1]), (zs[0], zs[1]))
-		for j in range(len(regions)-1):
+		for j in range(len(regions)-(1 if power[i] else 0)):
 			(b, r) = intersect(cur, regions[j])
 			if b:
 				regions.append(r)
@@ -89,8 +89,6 @@ def part2():
 		ys = r[1]
 		zs = r[2]
 		total += (xs[1] - xs[0] + 1)*(ys[1] - ys[0] + 1)*(zs[1] - zs[0] + 1)*signs[i]
-	print(regions)
-	print(signs)
 	print(total)
 
 #part1()
