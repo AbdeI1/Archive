@@ -6,7 +6,6 @@ def reader():
 	f = f[:-1]
 	return f
 
-openSpots = {(1,1),(1,2),(1,4),(1,6),(1,8),(1,10),(1,11)}
 costs = {'A': 1, 'B': 10, 'C': 100, 'D': 1000}
 rooms = {'A': 3, 'B': 5, 'C': 7, 'D': 9}
 roomsI = {3: 'A', 5: 'B', 7: 'C', 9: 'D'}
@@ -136,9 +135,9 @@ def part2():
 	while len(q) > 0:
 		(cost, s) = heapq.heappop(q)
 		b = fromString(s)
-		if toString(b) in visited:
+		if s in visited:
 			continue
-		visited.add(toString(b))
+		visited.add(s)
 		if finished(b):
 			print("finished: ", cost)
 			break
