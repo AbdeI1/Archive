@@ -34,6 +34,67 @@ def toList(i):
 		i //= 10
 	return res
 
+def findEquations(f):
+	res = []
+	st = []
+	dig = 0
+	for i in range(len(f)):
+		if f[i] == "div z 1":    # push onto stack
+			st.append((dig, int(f[i+11].split(' ')[2])))
+			dig += 1
+		elif f[i] == "div z 26": # pop off of stack
+			(d, s) = st.pop()
+			s += int(f[i+1].split(' ')[2])
+			if s < 0:
+				res.append("d" + str(d) + " - " + str(abs(s)) + " = " + "d" + str(dig))
+			elif s > 0:
+				res.append("d" + str(d) + " + " + str(s) + " = " + "d" + str(dig))
+			else:
+				res.append("d" + str(d) + " = " + "d" + str(dig))
+			dig += 1
+	return res
+
+def solveEquationsMax(equations):
+	res = [0]*14
+	for eq in equations:
+		(lhs, rhs) = eq.split(" = ")
+		lhs = lhs.split(' ')
+		if len(lhs) == 1:
+			res[int(lhs[0][1:])] = 9
+			res[int(rhs[1:])] = 9
+		elif lhs[1] == '+':
+			res[int(lhs[0][1:])] = 9 - int(lhs[2])
+			res[int(rhs[1:])] = 9
+		else:
+			res[int(lhs[0][1:])] = 9
+			res[int(rhs[1:])] = 9 - int(lhs[2])
+	return res
+
+def solveEquationsMin(equations):
+	res = [0]*14
+	for eq in equations:
+		(lhs, rhs) = eq.split(" = ")
+		lhs = lhs.split(' ')
+		if len(lhs) == 1:
+			res[int(lhs[0][1:])] = 1
+			res[int(rhs[1:])] = 1
+		elif lhs[1] == '+':
+			res[int(lhs[0][1:])] = 1
+			res[int(rhs[1:])] = 1 + int(lhs[2])
+		else:
+			res[int(lhs[0][1:])] = 1 + int(lhs[2])
+			res[int(rhs[1:])] = 1
+	return res
+
+def toInt(l):
+	c = l.copy()
+	res = 0
+	t = 1
+	while len(c) > 0:
+		res += c.pop() * t
+		t *= 10
+	return res
+
 # done by hand
 # conditions:
 # d7 + 1 = d8
@@ -46,13 +107,11 @@ def toList(i):
 
 def part1():
 	f = reader()
-	i = 39924989499969
-	print(execute(f, toList(i)))
+	print(toInt(solveEquationsMax(findEquations(f))))
 
 def part2():
 	f = reader()
-	i = 16811412161117
-	print(execute(f, toList(i)))
+	print(toInt(solveEquationsMin(findEquations(f))))
 
 part1()
 part2() 
