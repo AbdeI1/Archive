@@ -27,12 +27,7 @@ def execute(ins, inp):
 			return reg
 	return reg
 
-def toList(i):
-	res = []
-	while i != 0:
-		res = [i%10] + res
-		i //= 10
-	return res
+def toList(i): return list(map(int, list(str(i))))
 
 def findEquations(f):
 	res = []
@@ -87,23 +82,12 @@ def solveEquationsMin(equations):
 	return res
 
 def toInt(l):
-	c = l.copy()
 	res = 0
 	t = 1
-	while len(c) > 0:
-		res += c.pop() * t
+	for i in range(1, len(l)+1):
+		res += l[-i] * t
 		t *= 10
 	return res
-
-# done by hand
-# conditions:
-# d7 + 1 = d8
-# d2 - 5 = d5
-# d3 - 7 = d4
-# d9 + 5 = d10
-# d11    = d12
-# d6 - 3 = d13
-# d1 + 6 = d14
 
 def part1():
 	f = reader()
