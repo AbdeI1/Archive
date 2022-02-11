@@ -1,9 +1,8 @@
 import java.io.*;
 import java.util.*;
 
-// implements fft using modular arithmetic
 public class fftmod {
-  static final int P = 257; // prime number uses as mod, best if it's 1 more than a power of 2
+  static final int P = 257;
   //static final int[][] mult = new int[P][P];
   public static void main(String[] args) {
     int a = 91084;
@@ -12,8 +11,8 @@ public class fftmod {
     int[] poly2 = toPoly(b, 2);
     int[] poly3 = multPolynomials(poly1, poly2);
     int res = fromPoly(poly3, 2);
-    System.out.println(res); // these 2 results should match
-    System.out.println(a*b); // unless numbers are too big :(
+    System.out.println(res);
+    System.out.println(a*b);
   }
   public static void generateMultTable(){
     for(int i = 0; i < P; i++){
