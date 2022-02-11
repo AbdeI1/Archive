@@ -12,8 +12,8 @@ public class fftmod {
     int[] poly2 = toPoly(b, 2);
     int[] poly3 = multPolynomials(poly1, poly2);
     int res = fromPoly(poly3, 2);
-    System.out.println(res); // these 2 results
-    System.out.println(a*b); // should match
+    System.out.println(res); // these 2 results should match
+    System.out.println(a*b); // unless numbers are too big :(
   }
   public static void generateMultTable(){
     for(int i = 0; i < P; i++){
