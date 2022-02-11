@@ -3,7 +3,7 @@ import java.util.*;
 
 // implements fft using modular arithmetic
 public class fftmod {
-  static final int P = 257;
+  static final int P = 257; // prime number uses as mod, best if it's 1 more than a power of 2
   //static final int[][] mult = new int[P][P];
   public static void main(String[] args) {
     int a = 91084;
