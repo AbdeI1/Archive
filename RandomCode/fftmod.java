@@ -1,5 +1,5 @@
 import java.io.*;
-import java .util.*;
+import java.util.*;
 
 public class fftmod {
   static final int P = 257;
