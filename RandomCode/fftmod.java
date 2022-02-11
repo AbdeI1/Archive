@@ -1,9 +1,10 @@
 import java.io.*;
 import java.util.*;
 
+// implements fft using modular arithmetic
 public class fftmod {
   static final int P = 257;
-  static final int[][] mult = new int[P][P];
+  //static final int[][] mult = new int[P][P];
   public static void main(String[] args) {
     int a = 91084;
     int b = 21284;
@@ -17,7 +18,7 @@ public class fftmod {
   public static void generateMultTable(){
     for(int i = 0; i < P; i++){
       for(int j = 0; j < P; j++){
-        mult[i][j] = ((i*j)%P+P)%P;
+        //mult[i][j] = ((i*j)%P+P)%P;
       }
     }
   }
