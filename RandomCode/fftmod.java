@@ -13,8 +13,8 @@ public class fftmod {
     long res = fromPoly(poly3, 10);
     System.out.println(res);
     System.out.println(a*b);
-    long[] poly4 = {9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9};
-    long[] poly5 = {9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9};
+    long[] poly4 = {9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9};
+    long[] poly5 = {9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9};
     long[] poly6 = multPolynomials(poly4, poly5);
     long[] poly6b10 = convertToBase(poly6, 10);
     System.out.println(Arrays.toString(poly6b10));
