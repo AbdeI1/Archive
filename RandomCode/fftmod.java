@@ -13,6 +13,11 @@ public class fftmod {
     long res = fromPoly(poly3, 10);
     System.out.println(res);
     System.out.println(a*b);
+    long[] poly4 = {9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9};
+    long[] poly5 = {9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9};
+    long[] poly6 = multPolynomials(poly4, poly5);
+    long[] poly6b10 = converToBase(poly6, 10);
+    System.out.println(Arrays.toString(poly6b10));
   }
   public static void generateMultTable(){
     for(long i = 0; i < P; i++){
@@ -140,6 +145,16 @@ public class fftmod {
     while(n > 0) {
       n /= b;
       res++;
+    }
+    return res;
+  }
+  public static long[] converToBase(long[] a, long b) {
+    long[] res = new long[a.length];
+    long carryover = 0;
+    for(int i = 0; i < a.length; i++) {
+      res[i] = a[i] + carryover;
+      carryover = res[i]/b;
+      res[i] %= b;
     }
     return res;
   }
