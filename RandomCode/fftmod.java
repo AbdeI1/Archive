@@ -2,27 +2,27 @@ import java.io.*;
 import java.util.*;
 
 public class fftmod {
-  static final int P = 257;
-  //static final int[][] mult = new int[P][P];
+  static final long P = 65537;
+  //static final long[][] mult = new long[P][P];
   public static void main(String[] args) {
-    int a = 91084;
-    int b = 21284;
-    int[] poly1 = toPoly(a, 2);
-    int[] poly2 = toPoly(b, 2);
-    int[] poly3 = multPolynomials(poly1, poly2);
-    int res = fromPoly(poly3, 2);
+    long a = 132415;
+    long b = 3241;
+    long[] poly1 = toPoly(a, 10);
+    long[] poly2 = toPoly(b, 10);
+    long[] poly3 = multPolynomials(poly1, poly2);
+    long res = fromPoly(poly3, 10);
     System.out.println(res);
     System.out.println(a*b);
   }
   public static void generateMultTable(){
-    for(int i = 0; i < P; i++){
-      for(int j = 0; j < P; j++){
+    for(long i = 0; i < P; i++){
+      for(long j = 0; j < P; j++){
         //mult[i][j] = ((i*j)%P+P)%P;
       }
     }
   }
-  public static int[] generatePowers(int b){
-    int cur = b;
+  public static long[] generatePowers(long b){
+    long cur = b;
     int size = 1;
     while(cur != 1){
       if(size >= P) {
@@ -31,7 +31,7 @@ public class fftmod {
       cur = ((cur*b)%P+P)%P;
       size++;
     }
-    int[] result = new int[size];
+    long[] result = new long[size];
     result[0] = 1;
     cur = b;
     int i = 1;
@@ -42,9 +42,9 @@ public class fftmod {
     }
     return result;
   }
-  public static int getOmega(int n){
-    for(int i = 1; i < P; i++) {
-      int[] res = generatePowers(i);
+  public static long getOmega(long n){
+    for(long i = 1; i < P; i++) {
+      long[] res = generatePowers(i);
       if(res.length == n) {
         return i;
       }
@@ -52,13 +52,13 @@ public class fftmod {
     throw new NoSuchElementException();
     // return -1;
   }
-  public static int[] fft(int[] a, int o){
+  public static long[] fft(long[] a, long o){
     int n = a.length;
     if(n == 1){
-      return new int[]{a[0]};
+      return new long[]{a[0]};
     }
-    int[] a0 = new int[n/2];
-    int[] a1 = new int[n/2];
+    long[] a0 = new long[n/2];
+    long[] a1 = new long[n/2];
     for(int i = 0; i < n; i++){
       if(i%2 == 0){
         a0[i/2] = a[i];
@@ -66,10 +66,10 @@ public class fftmod {
         a1[i/2] = a[i];
       }
     }
-    int[] y0 = fft(a0, ((o*o)%P+P)%P);
-    int[] y1 = fft(a1, ((o*o)%P+P)%P);
-    int[] y = new int[n];
-    int w = 1;
+    long[] y0 = fft(a0, ((o*o)%P+P)%P);
+    long[] y1 = fft(a1, ((o*o)%P+P)%P);
+    long[] y = new long[n];
+    long w = 1;
     int i = 0;
     for(; i < n/2; i++) {
       y[i] = ((y0[i] + w*y1[i])%P+P)%P;
@@ -80,13 +80,11 @@ public class fftmod {
     }
     return y;
   }
-  public static int[] multPolynomials(int[] a, int[] b){
+  public static long[] multPolynomials(long[] a, long[] b){
     int n = Math.max(a.length, b.length)*2;
-    while(!isPower(n, 2)){
-      n++;
-    }
-    int[] ad = new int[n];
-    int[] bd = new int[n];
+    n = 1 << (logf(n, 2) + 1);
+    long[] ad = new long[n];
+    long[] bd = new long[n];
     for(int i = 0; i < n; i++){
       if(i < a.length){
         ad[i] = a[i];
@@ -95,45 +93,40 @@ public class fftmod {
         bd[i] = b[i];
       }
     }
-    int o = getOmega(n);
-    int[] af = fft(ad, o);
-    int[] bf = fft(bd, o);
-    int[] pwp = new int[n];
+    long o = getOmega(n);
+    long[] af = fft(ad, o);
+    long[] bf = fft(bd, o);
+    long[] pwp = new long[n];
     for(int i = 0; i < n; i++) {
       pwp[i] = af[i]*bf[i];
     }
-    int[] powers = generatePowers(o);
-    int oinv = powers[powers.length-1];
-    int[] res = fft(pwp, oinv);
+    long[] powers = generatePowers(o);
+    long oinv = powers[powers.length-1];
+    long[] res = fft(pwp, oinv);
     for(int i = 0; i < n; i++) {
       res[i] /= n;
     }
     return res;
   }
-  public static int[] toPoly(int n, int b) {
-    int log = 0;
-    int t = n;
-    while(t != 0) {
-      t /= b;
-      log++;
-    }
-    int[] res = new int[log];
+  public static long[] toPoly(long n, long b) {
+    int log = (int)logf(n, b) + 1;
+    long[] res = new long[log];
     for(int i = 0; i < log; i++){
       res[i] = n%b;
       n /= b;
     }
     return res;
   }
-  public static int fromPoly(int[] a, int b){
-    int p = 1;
-    int res = 0;
+  public static long fromPoly(long[] a, long b){
+    long p = 1;
+    long res = 0;
     for(int i = 0; i < a.length; i++){
       res += a[i]*p;
       p *= b;
     }
     return res;
   }
-  public static boolean isPower(int n, int b) {
+  public static boolean isPower(long n, long b) {
     while(n != 1) {
       if(n%b != 0) {
         return false;
@@ -141,5 +134,13 @@ public class fftmod {
       n /= b;
     }
     return true;
+  }
+  public static long logf(long n, long b) {
+    long res = -1;
+    while(n > 0) {
+      n /= b;
+      res++;
+    }
+    return res;
   }
 }
